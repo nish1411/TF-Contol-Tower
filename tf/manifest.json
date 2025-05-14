@@ -1,0 +1,30 @@
+{
+    "governedRegions": ["us-west-2","us-west-1"],
+    "organizationStructure": {
+        "security": {
+            "name": "hubcloud2"
+        },
+        "sandbox": {
+            "name": "Spoke2"
+        }
+    },
+    "centralizedLogging": {
+         "accountId": "184870496817",
+         "configurations": {
+             "loggingBucket": {
+                 "retentionDays": 60
+             },
+             "accessLoggingBucket": {
+                 "retentionDays": 60
+             },
+             "kmsKeyArn": "arn:aws:kms:ap-southeast-1:021668988431:key/19436235-1eeb-4fa8-b84b-0d95dbe4d87e"
+         },
+         "enabled": true
+    },
+    "securityRoles": {
+         "accountId": "068465769663"
+    },
+    "accessManagement": {
+         "enabled": true
+    }
+ }
