@@ -5,9 +5,9 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket         = "388762879711-organizationcloudtrail"
-    key            = "new/tfstate"
-    region         = "us-east-1"
+    bucket         = "my-uniquea-tfapse"
+    key            = "newest/tfstate"
+    region         = "ap-southeast-1"
     #dynamodb_table = "terraform-state-lock"
     encrypt        = true
   }
