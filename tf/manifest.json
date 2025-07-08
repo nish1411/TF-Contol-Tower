@@ -1,30 +1,23 @@
 {
-    "governedRegions": ["us-west-2","us-west-1"],
-    "organizationStructure": {
-        "security": {
-            "name": "hubtf"
-        },
-        "sandbox": {
-            "name": "Spoke"
+    "organizationalUnits": [
+      {
+        "name": "Sandbox"
+      },
+      {
+        "name": "Production"
+      }
+    ],
+    "enabledRegions": [
+      "us-east-1",
+      "us-west-2"
+    ],
+    "controls": [
+      {
+        "controlIdentifier": "arn:aws:controltower:us-east-1::control/AWS-GR_EC2_INSTANCE_MANAGED_BY_SSM",
+        "target": {
+          "organizationalUnits": ["Sandbox", "Production"]
         }
-    },
-    "centralizedLogging": {
-         "accountId": "184870496817",
-         "configurations": {
-             "loggingBucket": {
-                 "retentionDays": 60
-             },
-             "accessLoggingBucket": {
-                 "retentionDays": 60
-             },
-             "kmsKeyArn": "arn:aws:kms:ap-southeast-1:021668988431:key/19436235-1eeb-4fa8-b84b-0d95dbe4d87e"
-         },
-         "enabled": true
-    },
-    "securityRoles": {
-         "accountId": "068465769663"
-    },
-    "accessManagement": {
-         "enabled": true
-    }
- }
+      }
+    ]
+  }
+  
