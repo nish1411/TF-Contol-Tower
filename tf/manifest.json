@@ -1,74 +1,29 @@
 {
-    "organizationalUnits": [
-      {
-        "name": "Sandbox"
-      },
-      {
-        "name": "Development"
-      },
-      {
-        "name": "Production"
-      },
-      {
-        "name": "Security"
-      }
-    ],
-    "enabledRegions": [
-      "us-east-1",
-      "us-west-1",
-      "us-west-2",
-      "eu-west-1",
-      "ap-southeast-1"
-    ],
-    "controls": [
-      {
-        "controlIdentifier": "arn:aws:controltower:us-east-1::control/AWS-GR_EC2_INSTANCE_MANAGED_BY_SSM",
-        "target": {
-          "organizationalUnits": ["Development", "Production"]
+    "governedRegions": ["us-west-2","us-west-1"],
+    "organizationStructure": {
+        "security": {
+            "name": "CORE"
+        },
+        "sandbox": {
+            "name": "Sandbox"
         }
-      },
-      {
-        "controlIdentifier": "arn:aws:controltower:us-east-1::control/AWS-GR_S3_BUCKET_PUBLIC_READ_PROHIBITED",
-        "target": {
-          "organizationalUnits": ["Sandbox", "Development", "Production"]
-        }
-      },
-      {
-        "controlIdentifier": "arn:aws:controltower:us-east-1::control/AWS-GR_ROOT_ACCOUNT_MFA_ENABLED",
-        "target": {
-          "organizationalUnits": ["Security"]
-        }
-      },
-      {
-        "controlIdentifier": "arn:aws:controltower:us-east-1::control/AWS-GR_IAM_USER_NO_POLICIES_CHECK",
-        "target": {
-          "organizationalUnits": ["Sandbox", "Development", "Production"]
-        }
-      },
-      {
-        "controlIdentifier": "arn:aws:controltower:us-east-1::control/AWS-GR_IAM_ROLE_TRUSTED_ENTITIES_CHECK",
-        "target": {
-          "organizationalUnits": ["Development", "Production"]
-        }
-      },
-      {
-        "controlIdentifier": "arn:aws:controltower:us-east-1::control/AWS-GR_CLOUDTRAIL_SECURITY_TRAIL_ENABLED",
-        "target": {
-          "organizationalUnits": ["Security", "Production"]
-        }
-      },
-      {
-        "controlIdentifier": "arn:aws:controltower:us-east-1::control/AWS-GR_RDS_STORAGE_ENCRYPTED",
-        "target": {
-          "organizationalUnits": ["Production"]
-        }
-      },
-      {
-        "controlIdentifier": "arn:aws:controltower:us-east-1::control/AWS-GR_VPC_FLOW_LOGS_ENABLED",
-        "target": {
-          "organizationalUnits": ["Development", "Production"]
-        }
-      }
-    ]
-  }
-  
+    },
+    "centralizedLogging": {
+         "accountId": "${log_archive_account_id}",
+         "configurations": {
+             "loggingBucket": {
+                 "retentionDays": 60
+             },
+             "accessLoggingBucket": {
+                 "retentionDays": 60
+             }
+         },
+         "enabled": true
+    },
+    "securityRoles": {
+         "accountId": "${audit_account_id}"
+    },
+    "accessManagement": {
+         "enabled": true
+    }
+ }
