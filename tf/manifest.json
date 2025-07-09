@@ -2,10 +2,10 @@
     "governedRegions": ["us-west-2","us-west-1"],
     "organizationStructure": {
         "security": {
-            "name": "CORESS"
+            "name": "CORE"
         },
         "sandbox": {
-            "name": "Sandboxes"
+            "name": "Sandbox"
         }
     },
     "centralizedLogging": {
