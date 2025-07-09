@@ -1,5 +1,13 @@
 {
     "governedRegions": ["us-west-2","us-west-1"],
+    "organizationStructure": {
+        "security": {
+            "name": "CORESS"
+        },
+        "sandbox": {
+            "name": "Sandboxes"
+        }
+    },
     "centralizedLogging": {
          "accountId": "${log_archive_account_id}",
          "configurations": {
