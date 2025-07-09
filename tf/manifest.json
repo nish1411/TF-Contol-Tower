@@ -1,13 +1,5 @@
 {
     "governedRegions": ["us-west-2","us-west-1"],
-    "organizationStructure": {
-        "security": {
-            "name": "CORES"
-        },
-        "sandbox": {
-            "name": "Sandboxs"
-        }
-    },
     "centralizedLogging": {
          "accountId": "${log_archive_account_id}",
          "configurations": {
