@@ -2,22 +2,14 @@
     "governedRegions": ["us-west-2","us-west-1"],
     "organizationStructure": {
         "security": {
-            "name": "CORE"
+            "name": "COREsss"
         },
         "sandbox": {
-            "name": "Sandbox"
+            "name": "Sandboxssss"
         }
     },
     "centralizedLogging": {
          "accountId": "${log_archive_account_id}",
-         "configurations": {
-             "loggingBucket": {
-                 "retentionDays": 60
-             },
-             "accessLoggingBucket": {
-                 "retentionDays": 60
-             }
-         },
          "enabled": true
     },
     "securityRoles": {
