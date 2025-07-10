@@ -24,10 +24,17 @@ output "audit_account_id" {
 }
 
 module "ou" {
-  for_each          = { for ou in var.organizational_unit : "${ou.ou_name}" => ou }
-  source            = "../modules/ou"
-  ou_name           = each.value.ou_name         
-  parent_ou_name    = each.value.parent_ou_name  
+  for_each = {
+    for ou in var.organizational_unit :
+    ou.ou_name => {
+      ou_name        = ou.ou_name
+      parent_ou_name = lookup(ou, "parent_ou_name", "")  # fallback to ""
+    }
+  }
+
+  source           = "../modules/ou"
+  ou_name          = each.value.ou_name
+  parent_ou_name   = each.value.parent_ou_name
 }
 
 #module "accounts" {
