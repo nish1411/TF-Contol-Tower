@@ -4,7 +4,7 @@ organizational_unit = [
         parent_ou_name = "CORE"
     },
     {
-        ou_name        = "rootchild"
+        ou_name        = "rootchild2"
     }
 ]
 
