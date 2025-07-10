@@ -1,17 +1,17 @@
 data "aws_organizations_organization" "org" {}
 
 
-
-data "aws_organizations_organizational_unit" "top_ous" {
-  count     = var.parent_ou_name == "" ? 0 : 1
-  parent_id = data.aws_organizations_organization.org.roots[0].id
+# Only look up the parent OU if user specified one (non-root)
+data "aws_organizations_organizational_unit" "top_ou" {
+  count     = var.parent_ou_name != "" ? 1 : 0
   name      = var.parent_ou_name
+  parent_id = data.aws_organizations_organization.org.roots[0].id
 }
 
 resource "aws_organizations_organizational_unit" "organizational_unit" {
-  count     = var.ou_name == "" ? 0 : 1
   name      = var.ou_name
-  parent_id = var.parent_ou_name == "" ? data.aws_organizations_organization.org.roots[0].id : data.aws_organizations_organizational_unit.top_ous[0].id
+  parent_id = var.parent_ou_name != "" ?
+    data.aws_organizations_organizational_unit.top_ou[0].id :
+    data.aws_organizations_organization.org.roots[0].id
 }
-
 
