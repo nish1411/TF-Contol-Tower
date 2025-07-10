@@ -1,6 +1,7 @@
 data "aws_organizations_organization" "org" {}
 
 data "aws_organizations_organizational_unit" "top_ous" {
+  count     = var.parent_ou_name != "" ? 1 : 0
   parent_id = data.aws_organizations_organization.org.roots[0].id
   name      = var.parent_ou_name
 }
