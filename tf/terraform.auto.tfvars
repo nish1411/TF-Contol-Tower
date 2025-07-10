@@ -2,9 +2,6 @@ organizational_unit = [
     {
         ou_name        = "testchild"
         parent_ou_name = "CORE"
-    },
-    {
-        ou_name        = "rootchild2"
     }
 ]
 
