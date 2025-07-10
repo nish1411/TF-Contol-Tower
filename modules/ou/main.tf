@@ -15,7 +15,7 @@ locals {
 
 resource "aws_organizations_organizational_unit" "organizational_unit" {
   name      = var.ou_name
-  parent_id = local.parent_ou_id
+  parent_id = data.aws_organizations_organization.org.roots[0].id
 }
 
 output "ord_id" {
