@@ -1,3 +1,8 @@
+data "aws_organizations_organization" "org" {}
+
+data "aws_organizations_organizational_units" "top_ous" {
+  parent_id = data.aws_organizations_organization.org.roots[0].id
+}
 
 data "aws_organizations_organizational_units" "all_child_ous" {
   for_each  = { for ou in data.aws_organizations_organizational_units.top_ous.children : ou.name => ou.id }

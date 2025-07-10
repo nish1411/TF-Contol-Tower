@@ -1,7 +1,5 @@
 data "aws_organizations_organization" "org" {}
 
-
-# Only look up the parent OU if user specified one (non-root)
 data "aws_organizations_organizational_unit" "top_ou" {
   count     = var.parent_ou_name != null ? 1 : 0
   name      = var.parent_ou_name
