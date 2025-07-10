@@ -1,7 +1,7 @@
 organizational_unit = [
     {
         ou_name        = "testchild"
-        parent_ou_name = "testparent"
+        parent_ou_name = "CORE"
     }
 ]
 
