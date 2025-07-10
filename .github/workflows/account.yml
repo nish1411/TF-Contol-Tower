@@ -1,4 +1,4 @@
-name: AWS CT
+name: ACC
 
 on:
   push:
