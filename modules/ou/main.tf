@@ -10,7 +10,11 @@ locals {
     ou.name => ou.id
   }
 
-  parent_ou_id = var.parent_ou_name != "" ? local.ou_map[var.parent_ou_name] : data.aws_organizations_organization.org.roots[0].id
+  parent_ou_name_normalized = coalesce(var.parent_ou_name, "")
+
+  parent_ou_id = local.parent_ou_name_normalized != "" && contains(keys(local.ou_map), local.parent_ou_name_normalized)
+    ? local.ou_map[local.parent_ou_name_normalized]
+    : data.aws_organizations_organization.org.roots[0].id
 }
 
 
