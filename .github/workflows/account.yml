@@ -3,11 +3,11 @@ name: ACC
 on:
   push:
     paths:
-      - 'tf2/**'
+      - 'account/**'
   workflow_dispatch:
   pull_request:
     paths:
-      - 'tf2/**'
+      - 'account/**'
 
 env:
   TF_LOG: INFO
