@@ -7,6 +7,7 @@ data "aws_organizations_organizational_unit" "top_ous" {
 }
 
 resource "aws_organizations_organizational_unit" "organizational_unit" {
+  count     = var.ou_name != "" ? 1 : 0
   name      = var.ou_name
   parent_id = var.parent_ou_name != "" ? data.aws_organizations_organizational_unit.top_ous[count.index].id : data.aws_organizations_organization.org.roots[0].id
 }
