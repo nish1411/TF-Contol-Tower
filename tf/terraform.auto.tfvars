@@ -5,7 +5,6 @@ organizational_unit = [
     },
     {
         ou_name        = "rootchild"
-        parent_ou_name = "root"
     }
 ]
 
