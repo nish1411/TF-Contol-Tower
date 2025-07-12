@@ -24,9 +24,7 @@ resource "aws_organizations_organizational_unit" "parent_ou" {
 
 # Final OU ID (either existing or newly created)
 locals {
-  final_parent_ou_id = var.parent_ou_name == null ? data.aws_organizations_organization.main.roots[0].id :
-    local.existing_ou_id != null ? local.existing_ou_id :
-    aws_organizations_organizational_unit.parent_ou[0].id
+  final_parent_ou_id = var.parent_ou_name == null ? data.aws_organizations_organization.main.roots[0].id : local.existing_ou_id != null ? local.existing_ou_id : aws_organizations_organizational_unit.parent_ou[0].id
 }
 
 resource "aws_organizations_organizational_unit" "child_ou" {
