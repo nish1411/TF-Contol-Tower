@@ -52,4 +52,5 @@ module "account" {
   account_name   = each.value.account_name
   account_email  = each.value.account_email
   ou_name        = each.value.ou_name
+  depends_on     = [module.ou]
 }
