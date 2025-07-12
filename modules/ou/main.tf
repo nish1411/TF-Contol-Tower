@@ -13,7 +13,7 @@ locals {
 }
 
 resource "aws_organizations_organizational_unit" "parent_organizational_unit" {
-  count     = var.parent_ou_id == null ? 1 : 0
+  count     = local.parent_ou_id == null ? 1 : 0
   name      = var.parent_ou_name
   parent_id = data.aws_organizations_organization.main.roots[0].id
 }
