@@ -4,9 +4,6 @@ organizational_unit = [
         parent_ou_name = "parent1"
     },
     {
-        ou_name        = "parent2"
-    },
-    {
         ou_name        = "child3"
         parent_ou_name = "parent3"
     }
