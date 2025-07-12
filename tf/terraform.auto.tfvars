@@ -14,11 +14,6 @@ organizational_unit = [
 
 accounts = [
     {
-        account_name   = "child1acc"
-        account_email  = "tu8834072@gmail.com"
-        ou_name        = "child1"
-    },
-    {
         account_name   = "child2acc"
         account_email  = "tu8834072e@gmail.com"
         ou_name        = "parent2"
