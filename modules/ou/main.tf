@@ -1,29 +1,28 @@
 data "aws_organizations_organization" "main" {}
 
-# Look up existing OU (by name)
 data "aws_organizations_organizational_units" "top_ous" {
   parent_id = data.aws_organizations_organization.main.roots[0].id
 }
 
-# Match OU ID if it exists
-data "aws_organizations_organizational_unit" "matched" {
-  count = contains([for ou in data.aws_organizations_organizational_units.top_ous.children : ou.name], var.parent_ou_name) ? 1 : 0
-  id    = one([
-    for ou in data.aws_organizations_organizational_units.top_ous.children :
-    ou.id if ou.name == var.parent_ou_name
-  ])
+# Try to find an existing OU
+locals {
+  existing_ou_id = ( var.parent_ou_name != null && contains([for ou in data.aws_organizations_organizational_units.top_ous.children : ou.name], var.parent_ou_name) ) ? one([ for ou in data.aws_organizations_organizational_units.top_ous.children : ou.id if ou.name == var.parent_ou_name ]) : null
 }
 
 # Create only if not exists
 resource "aws_organizations_organizational_unit" "parent_ou" {
-  count     = length(data.aws_organizations_organizational_unit.matched) == 0 ? 1 : 0
+  count     = var.create_parent_ou && local.existing_ou_id == null ? 1 : 0
   name      = var.parent_ou_name
   parent_id = data.aws_organizations_organization.main.roots[0].id
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
-# Final OU ID
+# Final OU ID logic
 locals {
-  final_parent_ou_id = var.parent_ou_name == null ? data.aws_organizations_organization.main.roots[0].id : ( length(data.aws_organizations_organizational_unit.matched) > 0 ? data.aws_organizations_organizational_unit.matched[0].id : aws_organizations_organizational_unit.parent_ou[0].id )
+  final_parent_ou_id = var.parent_ou_name == null ? data.aws_organizations_organization.main.roots[0].id : coalesce(local.existing_ou_id, try(aws_organizations_organizational_unit.parent_ou[0].id, null))
 }
 
 resource "aws_organizations_organizational_unit" "child_ou" {
