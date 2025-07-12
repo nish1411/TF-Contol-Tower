@@ -24,12 +24,12 @@ accounts = [
         ou_name        = "parent2"
     },
             {
-        account_name   = "child2acc"
+        account_name   = "child3acc"
         account_email  = "reee80747@gmail.com"
         ou_name        = "child3"
     },
                 {
-        account_name   = "child2acc"
+        account_name   = "child4acc"
         account_email  = "reee80747d@gmail.com"
         ou_name        = "parent3"
     }
