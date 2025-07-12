@@ -4,31 +4,32 @@ data "aws_organizations_organizational_units" "top_ous" {
   parent_id = data.aws_organizations_organization.main.roots[0].id
 }
 
+# Try to get parent OU ID from existing OUs
 locals {
-  all_parent_ou_map = {
+  existing_ou_id = (
+    var.parent_ou_name != null &&
+    contains([for ou in data.aws_organizations_organizational_units.top_ous.children : ou.name], var.parent_ou_name)
+  ) ? one([
     for ou in data.aws_organizations_organizational_units.top_ous.children :
-    ou.name => ou.id
-  }
-  parent_ou_id  = var.parent_ou_name != null ? lookup(local.all_parent_ou_map, var.parent_ou_name, null) : null
+    ou.id if ou.name == var.parent_ou_name
+  ]) : null
 }
 
-resource "aws_organizations_organizational_unit" "parent_organizational_unit" {
-  count     = local.parent_ou_id == null ? 1 : 0
+# Create new OU only if it doesn't already exist
+resource "aws_organizations_organizational_unit" "parent_ou" {
+  count     = local.existing_ou_id == null && var.parent_ou_name != null ? 1 : 0
   name      = var.parent_ou_name
   parent_id = data.aws_organizations_organization.main.roots[0].id
 }
 
-data "aws_organizations_organizational_unit" "top_ou" {
-  count     = var.parent_ou_name != null ? 1 : 0
-  name      = var.parent_ou_name
-  parent_id = data.aws_organizations_organization.main.roots[0].id
+# Final OU ID (either existing or newly created)
+locals {
+  final_parent_ou_id = var.parent_ou_name == null ? data.aws_organizations_organization.main.roots[0].id :
+    local.existing_ou_id != null ? local.existing_ou_id :
+    aws_organizations_organizational_unit.parent_ou[0].id
 }
 
-resource "aws_organizations_organizational_unit" "organizational_unit" {
+resource "aws_organizations_organizational_unit" "child_ou" {
   name      = var.ou_name
-  parent_id = var.parent_ou_name != null ? data.aws_organizations_organizational_unit.top_ou[0].id : data.aws_organizations_organization.main.roots[0].id
-  depends_on = data.aws_organizations_organizational_unit.top_ou
+  parent_id = local.final_parent_ou_id
 }
-
-
-
