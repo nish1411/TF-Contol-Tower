@@ -1,4 +1,4 @@
-data "aws_organizations_organization" "org" {}
+
 
 data "aws_organizations_organizational_unit" "top_ou" {
   count     = var.parent_ou_name != null ? 1 : 0
