@@ -21,12 +21,7 @@ resource "aws_organizations_organizational_unit" "parent_ou" {
 
 # Final OU ID
 locals {
-  final_parent_ou_id = var.parent_ou_name == null ? data.aws_organizations_organization.main.roots[0].id :
-    (
-      length(data.aws_organizations_organizational_unit.matched) > 0 ?
-      data.aws_organizations_organizational_unit.matched[0].id :
-      aws_organizations_organizational_unit.parent_ou[0].id
-    )
+  final_parent_ou_id = var.parent_ou_name == null ? data.aws_organizations_organization.main.roots[0].id : ( length(data.aws_organizations_organizational_unit.matched) > 0 ? data.aws_organizations_organizational_unit.matched[0].id : aws_organizations_organizational_unit.parent_ou[0].id )
 }
 
 resource "aws_organizations_organizational_unit" "child_ou" {
