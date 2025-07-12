@@ -1,4 +1,13 @@
-variable "organizational_unit" {
+variable "parent_organizational_unit" {
+  type = list(object({
+    ou_name                    = optional(string)
+    parent_ou_name             = optional(string)
+  }))
+  description = "organizational_unit_mapping"
+  default     = []
+}
+
+variable "child_organizational_unit" {
   type = list(object({
     ou_name                    = optional(string)
     parent_ou_name             = optional(string)
