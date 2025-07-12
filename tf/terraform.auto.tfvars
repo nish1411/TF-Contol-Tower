@@ -1,13 +1,7 @@
 organizational_unit = [
     {
-        ou_name        = "parent1"
-    },
-    {
         ou_name        = "child1"
         parent_ou_name = "parent1"
-    },
-    {
-        ou_name        = "parent2"
     }
 ]
 
