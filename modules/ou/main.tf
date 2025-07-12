@@ -1,16 +1,33 @@
-data "aws_organizations_organization" "org" {}
+data "aws_organizations_organization" "main" {}
 
-data "aws_organizations_organizational_unit" "top_ou" {
-  count     = var.parent_ou_name != null ? 1 : 0
+data "aws_organizations_organizational_units" "top_ous" {
+  parent_id = data.aws_organizations_organization.main.roots[0].id
+}
+
+# Try to get parent OU ID from existing OUs
+locals {
+  existing_ou_id = (
+    var.parent_ou_name != null &&
+    contains([for ou in data.aws_organizations_organizational_units.top_ous.children : ou.name], var.parent_ou_name)
+  ) ? one([
+    for ou in data.aws_organizations_organizational_units.top_ous.children :
+    ou.id if ou.name == var.parent_ou_name
+  ]) : null
+}
+
+# Create new OU only if it doesn't already exist
+resource "aws_organizations_organizational_unit" "parent_ou" {
+  count     = local.existing_ou_id == null && var.parent_ou_name != null ? 1 : 0
   name      = var.parent_ou_name
-  parent_id = data.aws_organizations_organization.org.roots[0].id
+  parent_id = data.aws_organizations_organization.main.roots[0].id
 }
 
-resource "aws_organizations_organizational_unit" "organizational_unit" {
-  count     = var.parent_ou_name != "" ? 1 : 0
+# Final OU ID (either existing or newly created)
+locals {
+  final_parent_ou_id = var.parent_ou_name == null ? data.aws_organizations_organization.main.roots[0].id : local.existing_ou_id != null ? local.existing_ou_id : aws_organizations_organizational_unit.parent_ou[0].id
+}
+
+resource "aws_organizations_organizational_unit" "child_ou" {
   name      = var.ou_name
-  parent_id = var.parent_ou_name != null ? data.aws_organizations_organizational_unit.top_ou[0].id : data.aws_organizations_organization.org.roots[0].id
+  parent_id = local.final_parent_ou_id
 }
-
-
-

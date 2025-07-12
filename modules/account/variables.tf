@@ -11,5 +11,5 @@ variable "account_email" {
 
 variable "ou_name" {
     type =  string
-    default = ""
+    default = null
 }
