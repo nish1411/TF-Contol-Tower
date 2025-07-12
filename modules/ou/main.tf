@@ -27,6 +27,7 @@ data "aws_organizations_organizational_unit" "top_ou" {
 resource "aws_organizations_organizational_unit" "organizational_unit" {
   name      = var.ou_name
   parent_id = var.parent_ou_name != null ? data.aws_organizations_organizational_unit.top_ou[0].id : data.aws_organizations_organization.main.roots[0].id
+  depends_on = data.aws_organizations_organizational_unit.top_ou
 }
 
 
