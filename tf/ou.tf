@@ -31,7 +31,7 @@ module "parent_ou" {
 
 
 module "accounts" {
-  for_each          = { for acc in var.accounts : "${acc.ou_name}-${acc.account_name}" => acc }
+  for_each          = { for acc in var.accounts : "${acc.account_name}" => acc }
   source            = "../modules/account"
   account_name      = each.value.account_name
   account_email     = each.value.account_email
