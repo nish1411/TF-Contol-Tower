@@ -1,10 +1,7 @@
 data "aws_organizations_organization" "main" {}
 
-data "aws_organizations_organizational_units" "top_ous" {
-  parent_id = data.aws_organizations_organization.main.roots[0].id
-}
 
-resource "aws_organizations_organizational_unit" "parent_organizational_unit" {
+resource "aws_organizations_organizational_unit" "parent_ou" {
   for_each  = var.organizational_units
   name      = each.key
   parent_id = data.aws_organizations_organization.main.roots[0].id
