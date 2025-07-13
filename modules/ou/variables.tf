@@ -1,10 +1,7 @@
-
-variable "parent_ou_name" {
-    type =  string
-    default = null
-}
-
-variable "ou_name" {
-    type =  string
-    default = ""
+variable "organizational_units" {
+  type = map(object({
+    child_ous = optional(list(string), [])
+  }))
+  default     = {}
+  description = "organizational_unit_mapping"
 }

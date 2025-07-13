@@ -23,33 +23,18 @@
 #  value = aws_organizations_account.audit.id
 #}
 #
-module "ou" {
-  for_each = {
-    for ou in var.organizational_unit :
-    ou.ou_name => {
-      ou_name        = ou.ou_name
-      parent_ou_name = lookup(ou, "parent_ou_name", "")  # fallback to ""
-    }
-  }
 
-  source           = "../modules/ou"
-  ou_name          = each.value.ou_name
-  parent_ou_name   = each.value.parent_ou_name
+module "parent_ou" {
+  source                 = "../modules/ou"
+  organizational_units   = var.organizational_units
 }
 
 
-module "account" {
-  for_each = {
-    for acc in var.accounts :
-    acc.account_name => {
-      account_name  = acc.account_name
-      account_email = acc.account_email
-      ou_name       = lookup(acc, "ou_name", "")  
-    }
-  }
-
-  source         = "../modules/account"
-  account_name   = each.value.account_name
-  account_email  = each.value.account_email
-  ou_name        = each.value.ou_name
+module "accounts" {
+  for_each          = { for acc in var.accounts : "${acc.ou_name}-${acc.account_name}" => acc }
+  source            = "../modules/account"
+  account_name      = each.value.account_name
+  account_email     = each.value.account_email
+  ou_name           = each.value.ou_name
 }
+
