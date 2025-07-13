@@ -5,15 +5,18 @@ organizational_units = {
             "child2"
         ]
     }
-
     "parent2" = {
         child_ous = [
             "child3",
             "child4"
         ]
     }
-
     "parent3" = {
+    }
+    "parent4" = {
+        child_ous = [
+            "child5"
+        ]
     }
 }
 
@@ -32,5 +35,10 @@ accounts = [
      {
         account_name   = "t3"
         account_email  = "ssasasasasa1111@gmail.com"
+    },
+    {
+        account_name   = "t3"
+        account_email  = "ssasa11111123@gmail.com"
+        ou_name        = "child5"
     }
 ]
