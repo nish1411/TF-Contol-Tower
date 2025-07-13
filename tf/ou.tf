@@ -25,44 +25,16 @@
 #
 
 module "parent_ou" {
-  for_each = {
-    for ou in var.parent_organizational_unit :
-    ou.ou_name => {
-      parent_ou_name = lookup(ou, "parent_ou_name", "")  # fallback to ""
-    }
-  }
-
-  source           = "../modules/parent_ou"
-  parent_ou_name   = each.value.parent_ou_name
-}
-
-module "child_ou" {
-  for_each = {
-    for ou in var.child_organizational_unit :
-    ou.ou_name => {
-      ou_name        = ou.ou_name
-      parent_ou_name = lookup(ou, "parent_ou_name", "")  # fallback to ""
-    }
-  }
-
-  source           = "../modules/child_ou"
-  ou_name          = each.value.ou_name
-  parent_ou_name   = each.value.parent_ou_name
+  source                 = "../modules/ou"
+  organizational_units   = var.organizational_units
 }
 
 
-module "account" {
-  for_each = {
-    for acc in var.accounts :
-    acc.account_name => {
-      account_name  = acc.account_name
-      account_email = acc.account_email
-      ou_name       = lookup(acc, "ou_name", "")  
-    }
-  }
-
-  source         = "../modules/account"
-  account_name   = each.value.account_name
-  account_email  = each.value.account_email
-  ou_name        = each.value.ou_name
+module "accounts" {
+  for_each          = { for acc in var.accounts : "${acc.ou}-${acc.account_name}" => acc }
+  source            = "../modules/account"
+  account_name      = each.value.account_name
+  account_email     = each.value.account_email
+  ou_name           = each.value.ou_name
 }
+

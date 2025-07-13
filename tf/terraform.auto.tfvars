@@ -1,28 +1,22 @@
-parent_organizational_unit = [
-    {
-        parent_ou_name = "parent1"
-    },
-    {
-        parent_ou_name = "parent2"
-    },
-    {
-        parent_ou_name = "parent3"
+organizational_units = {
+    "parent1" = {
+        child_ous = [
+            "child1",
+            "child2"
+        ]
     }
-]
 
-child_organizational_unit = [
-    {
-        ou_name        = "child1"
-        parent_ou_name = "parent1"
-    },
-    {
-        ou_name        = "child2"
-    },
-    {
-        ou_name        = "child3"
-        parent_ou_name = "parent3"
+    "parent2" = {
+        child_ous = [
+            "child3",
+            "child4"
+        ]
     }
-]
+
+    "parent3" = {
+    }
+}
+
 
 accounts = [
     {
