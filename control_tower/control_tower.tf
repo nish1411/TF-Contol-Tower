@@ -36,10 +36,6 @@ output "audit_account_id" {
   value = aws_organizations_account.audit.id
 }
 
-output "security_ou" {
-  value = aws_organizations_organizational_unit.security_ou.id
-}
-
 resource "aws_iam_role" "ctl_admin" {
   name = "AWSControlTowerAdmin"
   path = "/service-role/"
