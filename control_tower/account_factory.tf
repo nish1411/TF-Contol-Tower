@@ -1,8 +1,8 @@
-module "ou" {
- source                 = "../modules/ou"
- organizational_units   = var.organizational_units
- accounts = var.accounts
-}
+#module "ou" {
+# source                 = "../modules/ou"
+# organizational_units   = var.organizational_units
+# accounts = var.accounts
+#}
 
 
 #module "accounts" {

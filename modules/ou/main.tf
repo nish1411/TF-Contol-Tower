@@ -78,5 +78,5 @@ resource "aws_organizations_account" "new_account" {
   role_name = "OrganizationAccountAccessRole"
   parent_id = lookup( local.all_child_ou_map, each.value.ou_name, lookup( local.all_parent_ou_map, each.value.ou_name, data.aws_organizations_organization.main.roots[0].id ))
   #parent_id = local.selected_parent_ou_id
-  depends_on = ["aws_organizations_organizational_unit.child_ou"]
+  depends_on = [aws_organizations_organizational_unit.child_ou]
 }
