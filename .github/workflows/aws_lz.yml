@@ -3,11 +3,11 @@ name: AWS CT
 on:
   push:
     paths:
-      - 'tf/**'
+      - 'control_tower/**'
   workflow_dispatch:
   pull_request:
     paths:
-      - 'tf/**'
+      - 'control_tower/**'
 
 env:
   TF_LOG: INFO
