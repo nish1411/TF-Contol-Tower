@@ -44,3 +44,24 @@ output "audit_account_id" {
 output "security_ou" {
   value = aws_organizations_organizational_unit.security_ou.id
 }
+
+resource "aws_iam_role" "ctl_admin" {
+  name = "AWSControlTowerAdmin"
+  path = "/service-role/"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect = "Allow",
+      Principal = {
+        Service = "controltower.amazonaws.com"
+      },
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ctl_admin_policy_attach" {
+  role       = aws_iam_role.ctl_admin.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
