@@ -12,35 +12,23 @@ resource "aws_controltower_landing_zone" "example" {
   version       = "3.3"
 }
 
-data "aws_organizations_organization" "main" {}
+data "aws_organizations_organization" "ct" {}
 
 resource "aws_organizations_account" "log_archive" {
-  name      = "logs"
-  email     = "nishsjsk07@gmail.com"
+  name      = var.log_account_name
+  email     = var.log_account_email
   role_name = "OrganizationAccountAccessRole"
-  parent_id = data.aws_organizations_organization.main.roots[0].id
+  parent_id = data.aws_organizations_organization.ct.roots[0].id
 }
 
 resource "aws_organizations_account" "audit" {
-  name      = "auds"
-  email     = "sjsknish@gmail.com"
+  name      = var.audit_account_name
+  email     = var.audit_account_email
   role_name = "OrganizationAccountAccessRole"
-  parent_id = data.aws_organizations_organization.main.roots[0].id
+  parent_id = data.aws_organizations_organization.ct.roots[0].id
 }
 
 resource "aws_organizations_organizational_unit" "security_ou" {
-  name      = "Security-OU"
-  parent_id = data.aws_organizations_organization.main.roots[0].id
-}
-
-output "log_archive_account_id" {
-  value = aws_organizations_account.log_archive.id
-}
-
-output "audit_account_id" {
-  value = aws_organizations_account.audit.id
-}
-
-output "security_ou" {
-  value = aws_organizations_organizational_unit.security_ou.id
+  name      = var.security_ou_name
+  parent_id = data.aws_organizations_organization.ct.roots[0].id
 }
