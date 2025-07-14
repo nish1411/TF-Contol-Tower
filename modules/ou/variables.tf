@@ -5,3 +5,13 @@ variable "organizational_units" {
   default     = {}
   description = "organizational_unit_mapping"
 }
+
+variable "accounts" {
+  type = list(object({
+    account_name               = optional(string)
+    account_email              = optional(string)
+    ou_name                    = optional(string, "")
+  }))
+  description = "accounts_mapping"
+  default     = []
+}
